@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}
+    {% endblock %}</title>
+  <link href="{% static "css/blog.css" %}" rel="stylesheet">
+</head>
+<body>
+
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">
+        {{ message|safe }}
+          <a href="#" class="close">x</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+  <div id="content">
+    {% block content %}
+
+    {% endblock %}
+  </div>
+
+<div id="sidebar">
+    <h2>My blog</h2>
+    {% if request.user.is_authenticated %}
+    <p>This is {{request.user}}'s blog.</p>
+    {% else %}
+    <p>This is the blog.</p>
+    {% endif %}
+
+  <p><a href="{% url "blog:post_list" %}">All posts</a></p>
+  <p><a href="{% url "blog:register" %}">Register a new account</a></p>
+  <p><a href="{% url "blog:login" %}">Login</a></p>
+
+  {% if request.user.is_authenticated %}
+    <p><a href="{% url "blog:my_list" %}">See my posts</a></p>
+    <p><a href="{% url "blog:logout" %}">Log Out</a></p>
+    <p><a href="{% url "blog:edit" %}">Edit your account</a></p>
+    <p><a href="{% url "blog:post_create" %}">Post something NEW!</a></p>
+  {% endif %}
+
+
+  </div>
+
+</body>
+</html>
